@@ -33,17 +33,19 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
 import org.moe.samples.museummap.android.db.AndroidSQLiteDatabaseHelper;
 import org.moe.samples.museummap.common.MuseumSearchEngine;
 import org.moe.samples.museummap.common.model.Museum;
@@ -60,17 +62,27 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
-                .getMap();
 
         final Context ctx = getApplicationContext();
         source = new DataSource(new AndroidSQLiteDatabaseHelper(ctx, "local.db"));
         source.open();
 
-        nameMarker = (EditText) findViewById(R.id.editText);
+        OnMapReadyCallback mapCallback = new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                mMap = googleMap;
+            }
+        };
 
+        ((SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map))
+                .getMapAsync(mapCallback);
+
+        nameMarker = (EditText) findViewById(R.id.editText);
+        System.out.println(mMap);
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -87,9 +99,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button addButton = (Button)findViewById(R.id.btnPlus);
-        Button removeButton = (Button)findViewById(R.id.btnMinus);
-        Button updateButton = (Button)findViewById(R.id.btnUpdate);
+        Button addButton = (Button) findViewById(R.id.btnPlus);
+        Button removeButton = (Button) findViewById(R.id.btnMinus);
+        Button updateButton = (Button) findViewById(R.id.btnUpdate);
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 LatLng centerCoordinate = mMap.getCameraPosition().target;
 
-                Double[] loadTaskParams = { centerCoordinate.latitude, centerCoordinate.longitude };
+                Double[] loadTaskParams = {centerCoordinate.latitude, centerCoordinate.longitude};
                 AsyncTask loader = new LoadTask();
                 loader.execute(loadTaskParams);
             }
@@ -154,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
             if (museums == null) {
                 errorMessage = MuseumSearchEngine.getLastError();
             } else {
-                for(int i = 0; i < museums.size(); i++) {
+                for (int i = 0; i < museums.size(); i++) {
                     ArrayList<Museum> existMuseums = source.getMuseumsByAllParameters(
                             museums.get(i).getName(),
                             museums.get(i).getLatitude(),

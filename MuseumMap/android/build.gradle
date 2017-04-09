@@ -1,16 +1,33 @@
 apply plugin: 'com.android.application'
 
+def AndroidSDK_Ver = "25.0.0"
+def GooglePlayAPI_Ver = "10.2.0"
+
 android {
-    compileSdkVersion 22
-    buildToolsVersion "23.0.1"
+    compileSdkVersion 25
+    buildToolsVersion AndroidSDK_Ver
 
     defaultConfig {
         applicationId "org.moe.samples.museummap.android"
-        minSdkVersion 19
-        targetSdkVersion 22
+        minSdkVersion 15
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
+
+        // TODO Update lint or dex option
+        // Enabling multidex support.
+        multiDexEnabled false
     }
+
+    lintOptions {
+        abortOnError false
+    }
+
+
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -21,7 +38,68 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.2.1'
-    compile 'com.google.android.gms:play-services:6.5.87'
     compile project(':common')
+
+    compile "com.android.support:support-core-utils:${AndroidSDK_Ver}"
+    compile "com.android.support:design:${AndroidSDK_Ver}"
+    compile "com.android.support:percent:${AndroidSDK_Ver}"
+    compile "com.android.support:appcompat-v7:${AndroidSDK_Ver}"
+//    compile "com.google.maps:google-maps-services:0.1.17"
+
+//    compile "com.twilio.sdk:twilio:7.0.0"
+//    Failed to be used, maybe it's Java7.
+
+
+    compile "com.google.android.gms:play-services:${GooglePlayAPI_Ver}"
+
+//    Firebase
+//    compile "com.google.firebase:firebase-core:${GooglePlayAPI_Ver}"
+//    MultiDex
+//    compile "com.android.support:multidex:1.0.1"
+
+    /*
+//    Google Play services API Description in build.gradle
+//    Google+
+    compile "com.google.android.gms:play-services-plus:${GooglePlayAPI_Ver}"
+//  Google Account Login
+    compile "com.google.android.gms:play-services-auth:${GooglePlayAPI_Ver}"
+//  Google Actions, Base Client Library
+    compile "com.google.android.gms:play-services-base:${GooglePlayAPI_Ver}"
+//    Google Address API
+    compile "com.google.android.gms:play-services-identity:${GooglePlayAPI_Ver}"
+//    Google Analytics
+    compile "com.google.android.gms:play-services-analytics:${GooglePlayAPI_Ver}"
+//    Google Awareness
+    compile "com.google.android.gms:play-services-awareness:${GooglePlayAPI_Ver}"
+//    Google Cast
+    compile "com.google.android.gms:play-services-cast:${GooglePlayAPI_Ver}"
+//    Google Cloud Messaging
+    compile "com.google.android.gms:play-services-gcm:${GooglePlayAPI_Ver}"
+//    Google Drive
+    compile "com.google.android.gms:play-services-drive:${GooglePlayAPI_Ver}"
+//    Google Fit
+    compile "com.google.android.gms:play-services-fitness:${GooglePlayAPI_Ver}"
+//    Google Location and Activity Recognition
+    compile "com.google.android.gms:play-services-location:${GooglePlayAPI_Ver}"
+//    Google Maps
+    compile "com.google.android.gms:play-services-maps:${GooglePlayAPI_Ver}"
+//    Google Mobile Ads
+    compile "com.google.android.gms:play-services-ads:${GooglePlayAPI_Ver}"
+//    Google Places
+    compile "com.google.android.gms:play-services-places:${GooglePlayAPI_Ver}"
+//    Mobile Vision
+    compile "com.google.android.gms:play-services-vision:${GooglePlayAPI_Ver}"
+//    Google Nearby
+    compile "com.google.android.gms:play-services-nearby:${GooglePlayAPI_Ver}"
+//    Google Panorama Viewer
+    compile "com.google.android.gms:play-services-panorama:${GooglePlayAPI_Ver}"
+//    Google Play Game services
+    compile "com.google.android.gms:play-services-games:${GooglePlayAPI_Ver}"
+//    SafetyNet
+    compile "com.google.android.gms:play-services-safetynet:${GooglePlayAPI_Ver}"
+//    Android Pay
+    compile "com.google.android.gms:play-services-wallet:${GooglePlayAPI_Ver}"
+//    Android Wear
+    compile "com.google.android.gms:play-services-wearable:${GooglePlayAPI_Ver}"
+    */
 }
