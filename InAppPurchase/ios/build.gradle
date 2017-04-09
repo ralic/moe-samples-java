@@ -18,6 +18,7 @@ dependencies {
 
 moe {
     xcode {
+<<<<<<< HEAD
 //        mainTarget 'InAppPurchase'
 //        packageName 'org.moe.inapppurchase'
 //        launchScreenFilePath 'src/main/resources/LaunchScreen.xib'
@@ -27,6 +28,11 @@ moe {
 //        bundleVersion '1'
 //        deploymentTarget '9.0'
 //        bundleID 'org.moe.samples.InAppPurchase'
+=======
+        project 'xcode/InAppPurchase.xcodeproj'
+        mainTarget 'InAppPurchase'
+        testTarget 'InAppPurchase-Test'
+>>>>>>> 407068718041cfd34898c1bbc960fbcf7b552f3f
     }
 }
 
